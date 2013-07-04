@@ -1,7 +1,6 @@
-bs4 = None
-
+""" Generates HTML from Tag """
 # backend
-_INDENT_SIZE = 4
+INDENT_SIZE = 4
 
 def indent(text, margin, function=lambda x:x):
     """Adds 'margin' to the beginning of every line in 'text'."""
@@ -13,11 +12,11 @@ def indent(text, margin, function=lambda x:x):
                        for x in text.splitlines())
 
 def _indent_ml_string(n, s):
-    return indent(s, ' '*n*_INDENT_SIZE)
+    return indent(s, ' '*n*INDENT_SIZE)
 
 def _at_indent(n, s):
-    ''' return s, indented by n*_INDENT_SIZE speces '''
-    return ' '*n*_INDENT_SIZE + s
+    ''' return s, indented by n*INDENT_SIZE speces '''
+    return ' '*n*INDENT_SIZE + s
 
 def _try_to_import_bs4():
     global bs4
