@@ -10,7 +10,7 @@ HTML code within Python.
 
 Some Features:
  - It is Pure-Python
- - Special <br/> support, to keep the <br/> consistent (See code).
+ - Special \<br/\> support, to keep the \<br/\> consistent (See code).
  - The code generated is auto indented, helps me and you debug code :).
  - Multiline Strings.
  - Full attribute and name support.
