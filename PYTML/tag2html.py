@@ -1,4 +1,8 @@
-""" Generates HTML from Tag """
+#!/usr/bin/env python
+"""tag2html.py: Generates HTML from Tag instances
+ This module
+  - is the place where the HTML is generated.
+"""
 # backend
 INDENT_SIZE = 4
 

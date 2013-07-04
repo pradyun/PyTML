@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""parser.py: Generates the Tag tree from tokens
+ This module
+  - parses the tokens into a Tag structure using LR technique
+"""
+
 import re
 from textwrap import dedent
 from tag2html import Tag
@@ -9,6 +15,7 @@ def to_tag(tokens):
 
 
 class ParseError(Exception):
+
     def __str__(self):
         return '{self.__class__.__name__}: {self.msg}'
 

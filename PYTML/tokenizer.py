@@ -1,5 +1,8 @@
-import sys
-import traceback
+#!/usr/bin/env python
+""" tokenizer.py: Token Generation Module
+ This module
+  - is a backend for parsing the text into tokens
+"""
 import lex
 
 __all__ = ['tokenize']
