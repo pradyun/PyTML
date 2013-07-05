@@ -18,7 +18,6 @@ def get_HTML(obj):
         return obj.html()
     return get_HTML(get_tag(obj))  # try to recursively get tag
 
-
 def get_tag(obj):
     if hasattr(obj, '__next__') or hasattr(obj, 'next'):
         return to_tag(list(obj))
@@ -26,7 +25,6 @@ def get_tag(obj):
         return to_tag(iter(obj))
     else:
         return get_tag(get_tokens(obj))  # try to recursively get tokens
-
 
 def get_tokens(obj):
     if isinstance(obj, basestring):
@@ -40,10 +38,14 @@ def get_tokens(obj):
 
 get_html = get_HTML
 
+def from_html(html):
+    return Tag(from_text=html).ptml()
 
 def interface_command_line():
     import argparse
     import sys
+    print 'NotImplemented'
+    sys.exit(0)
 
 if __name__ == '__main__':
     interface_command_line()

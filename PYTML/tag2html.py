@@ -5,6 +5,7 @@
 """
 # backend
 INDENT_SIZE = 4
+bs4 = None
 
 def indent(text, margin, function=lambda x:x):
     """Adds 'margin' to the beginning of every line in 'text'."""
@@ -78,7 +79,11 @@ class Tag(PageElement):
 
     def extract_from(self, soup):
         # get the tag
-        tag = list(soup.html.body.children)[0]
+        try:
+            tag = soup.html.children.next().children.next()
+        except:
+            raise
+            raise ValueError('Unable to get data')
 
         # place the required atttributes
         self._contents = map(get_tag, tag.children)
