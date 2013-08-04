@@ -41,11 +41,48 @@ get_html = get_HTML
 def from_html(html):
     return Tag(from_text=html).ptml()
 
-def interface_command_line():
-    import argparse
-    import sys
-    print 'NotImplemented'
-    sys.exit(0)
+# Interpretter
+class Interpretter(object):
+    def __init__(self):
+        super(Interpretter, self).__init__()
+        self.prompt1 = 'pytml > '
+        self.prompt2 = '....... '
+        self.func = get_html
 
+    def continue_line(self, line):
+        return bool(line)
+
+    def run_once(self):
+        try:
+            s = ''
+            line = raw_input(self.prompt1)
+            while self.continue_line(line):
+                s += line+'\n'
+                line = raw_input(self.prompt2)
+            s += line+'\n'
+            self.run(s)
+        except KeyboardInterrupt:
+            pass
+
+    def run_prompt(self):
+        while True:
+            self.run_once()
+
+    def run(self, text):
+        if text == "html":
+            self.func = get_html
+        elif text == "tag":
+            self.func = get_tag
+        elif text == "token":
+            def print_tokens(text):
+                for i in get_tokens(text):
+                    print i
+            self.func = print_tokens
+        else:
+            try:
+                print self.func(text)
+                print '------'
+            except Exception, e:
+                print e
 if __name__ == '__main__':
-    interface_command_line()
+    Interpretter().run_prompt()
