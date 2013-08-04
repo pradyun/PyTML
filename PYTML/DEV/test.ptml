@@ -1,0 +1,37 @@
+# A few points to note,
+#  - Never indent with tabs, I decided not to support them, they are a pain
+#    (Might implement later)
+
+
+html doctype='utf-8':
+    head:
+        script:
+        # to include multiline stuff, that might need escaping, do this
+            """
+function donothing(){
+
+}
+""" # and they don't need to end at the same indent...
+    # but start and close the strings on a seperate line.
+    body:
+        p:
+            # for inline text just type it.
+            "Hello World <br>" # but you need to add the br yourself
+
+            # for adding html, well, just add it, in a string :)
+            "<p> This was inline HTML </p>"
+            # still have the escapes for hashes though
+
+            "a:"
+            # for a hash
+            \# abc
+        pre:
+            """
+Note: the stuff in multiline strings is escaped :)
+And the stuff in this <pre> is escaped.
+for HTML <code>, and ooh..
+Yes: also for for PyTML..
+"""
+        p:
+            #and yes, for empty tags, you still need to go to the next line
+            pass # and write this

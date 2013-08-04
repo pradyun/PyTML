@@ -7,26 +7,27 @@
 INDENT_SIZE = 4
 bs4 = None
 
-def indent(text, margin, function=lambda x:x):
+
+def indent(text, margin, function=lambda x: x):
     """Adds 'margin' to the beginning of every line in 'text'."""
-    #Add an extra newline to the end of text. This ensures that any
-    #existing trailing newline isn't lost.
+    # Add an extra newline to the end of text. This ensures that any
+    # existing trailing newline isn't lost.
     text += "\n"
 
     return '\n'.join((margin + x if function(x) else x)
-                       for x in text.splitlines())
+                     for x in text.splitlines())
 
 def _indent_ml_string(n, s):
-    return indent(s, ' '*n*INDENT_SIZE)
+    return indent(s, ' ' * n * INDENT_SIZE)
 
 def _at_indent(n, s):
     ''' return s, indented by n*INDENT_SIZE speces '''
-    return ' '*n*INDENT_SIZE + s
+    return ' ' * n * INDENT_SIZE + s
 
 def _try_to_import_bs4():
     global bs4
     try:
-       import bs4
+        import bs4
     except ImportError:
         try:
             import BeautifulSoup as bs4
@@ -52,6 +53,7 @@ class PageElement(object):
     pass
 
 class Tag(PageElement):
+
     """ An Html tag """
     def __init__(self, name='', closing=False, **attrs):
         # Ensure that name is a string and handling, case-insensitive
@@ -77,6 +79,12 @@ class Tag(PageElement):
     def __nonzero__(self):
         return bool(self._contents or self._attrs)
 
+    def __eq__(self, other):
+        if isinstance(other, Tag):
+            if self._attrs == other._attrs and other._contents == self._contents:
+                return True
+        return False
+
     def extract_from(self, soup):
         # get the tag
         try:
@@ -94,21 +102,21 @@ class Tag(PageElement):
         if self.name == 'br':
             return '<br/>'
         attrs = ''
-        for k,v in self._attrs.iteritems():
-            attrs += ' '+'{0}={1!r}'.format(k,v)
+        for k, v in self._attrs.iteritems():
+            attrs += ' ' + '{0}={1}'.format(k, repr(v.strip('\'"')))
         if self.closing:
             return "<{0}{1}/>".format(self.name, attrs)
         inner_html = ''.join(map(get_html, self._contents))
         return "<{0}{1}>{2}</{0}>".format(self.name, attrs,
-                                          inner_html).replace('\n','')
+                                          inner_html).replace('\n', '')
 
     def html(self):
         return self._beauty_html(0)
 
-    def _beauty_html(self, indent): # backend
+    def _beauty_html(self, indent):  # backend
         attrs = ''
-        for k,v in self._attrs.iteritems():
-            attrs += ' '+'{0}={1!r}'.format(k,v)
+        for k, v in self._attrs.iteritems():
+            attrs += ' ' + '{0}={1}'.format(k, repr(v.strip('\'"')))
         if self.closing:
             return _at_indent(indent, "<{0}{1}/>".format(self.name, attrs))
         retval = _at_indent(indent, "<{0}{1}>".format(self.name, attrs))
@@ -119,12 +127,12 @@ class Tag(PageElement):
             for i in self._contents:
                 if isinstance(i, Tag):
                     if i.name != 'br':
-                        retval += '\n'+i._beauty_html(indent+1)
+                        retval += '\n' + i._beauty_html(indent + 1)
                     else:
                         # maintain consistency!!
                         retval += '<br/>'
                 else:
-                    retval += '\n' + _indent_ml_string(indent+1, i)
+                    retval += '\n' + _indent_ml_string(indent + 1, i)
 
             if '\n' in retval:
                 retval = retval.rstrip() + '\n' + _at_indent(indent, '')
@@ -152,28 +160,28 @@ class Tag(PageElement):
     def to_ptml(self):
         return self._to_ptml(0)
 
-    def _to_ptml(self, indent): # backend
+    def _to_ptml(self, indent):  # backend
         s = self.name
-        for k,v in self._attrs.iteritems():
-            s += ' {0}={1!r}'.format(k,v)
+        for k, v in self._attrs.iteritems():
+            s += ' {0}={1}'.format(k, repr(v.strip('\'"')))
         s += ':'
-        retval = _at_indent(indent, s)+'\n'
+        retval = _at_indent(indent, s) + '\n'
         if not self._contents:
-            retval += _at_indent(indent+1,'pass')
+            retval += _at_indent(indent + 1, 'pass')
             return retval
         for i in self._contents:
             if isinstance(i, Tag):
                 if i.name != 'br':
-                    retval += i._to_ptml(indent+1)+'\n'
+                    retval += i._to_ptml(indent + 1) + '\n'
                 else:
                     retval = retval[:-1]
                     retval += '<br/>\n'
             else:
-                 retval += _indent_ml_string(indent+1, repr(str(i)))+'\n'
+                retval += _indent_ml_string(indent + 1, repr(str(i))) + '\n'
         return retval.rstrip('\n')
 
-
 class Html(PageElement):
+
     def __init__(self):
         super(Html, self).__init__()
         self.body = Tag('body')
@@ -193,6 +201,7 @@ class Html(PageElement):
             return '\n'.join(doctype_data, retval)
 
 class Page(object):
+
     def __init__(self):
         self.title = ''
         self.scripts = []
@@ -236,19 +245,28 @@ class Page(object):
 
 # Convienience classes
 class Link(Tag):
+
     def __init__(self, text, href, **attrs):
         super(self.__class__, self).__init__('a', href=href, **attrs)
         self.add_child(text)
 
 class Image(Tag):
+
     def __init__(self, text, src, **attrs):
         super(self.__class__, self).__init__('img', True, src=src,
                                              alt=text, **attrs)
 
-class TagGenerator(object):
-    def __getattr__(self, name):
-        return Tag(name)
 
 if __name__ == '__main__':
     li = '<ul><li>abc</li><li>abcd</li></ul>'
     h = Tag(from_text=li)
+    h2 = Tag('ul')
+    f1 = Tag('li')
+    f2 = Tag('li')
+    f1.add_child('abc')
+    f2.add_child('abcd')
+    h2.add_child(f1)
+    h2.add_child(f2)
+    print h == h2
+
+
