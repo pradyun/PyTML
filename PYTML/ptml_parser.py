@@ -5,6 +5,7 @@
 """
 
 import re
+import cgi  # escaping
 from textwrap import dedent
 from tag2html import Tag
 from tokenizer import tokenize
@@ -12,6 +13,10 @@ from tokenizer import tokenize
 
 def to_tag(tokens):
     return Parser().parse(tokens)
+
+
+def escape_string(text):
+    return cgi.escape(str(text)).encode('ascii', 'xmlcharrefreplace')
 
 class Parser:
 
@@ -80,11 +85,19 @@ class Parser:
         elif typ in ['NEWLINE','NL','INDENT']:
             return
         else:
-            print token
+            pass
+            #print token
 
     def parse_string(self):
-        s = eval(self.get_token().value)
+        escape = True
+        value = self.get_token().value
+        if value[0] == 'r':
+            escape = False
+            value = value[1:]
+        s = eval(value)
         s = dedent(s)
+        if escape:
+            s = escape_string(s)
         return s.strip('\r\n')
 
     def parse_tag(self):

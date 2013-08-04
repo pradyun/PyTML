@@ -74,6 +74,7 @@ class Interpretter(object):
         elif text == "tag":
             self.func = get_tag
         elif text == "token":
+
             def print_tokens(text):
                 for i in get_tokens(text):
                     print i

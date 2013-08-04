@@ -38,15 +38,15 @@ def get_html(obj):
     if isinstance(obj, PageElement):
         return obj.single_line_html()
     else:
-        return unicode(obj)
+        return str(obj)
 
 def get_tag(obj):
     if bs4 and isinstance(obj, bs4.Tag):
-        return Tag(from_text=unicode(obj))
+        return Tag(from_text=str(obj))
     elif isinstance(obj, Tag):
         return obj
     else:
-        return unicode(obj)
+        return str(obj)
 
 # an empty class from which all page-elements "have" to inherit...
 class PageElement(object):
@@ -130,9 +130,10 @@ class Tag(PageElement):
                         retval += '\n' + i._beauty_html(indent + 1)
                     else:
                         # maintain consistency!!
-                        retval += '<br/>'
+                        retval += '<br>'
                 else:
-                    retval += '\n' + _indent_ml_string(indent + 1, i)
+                    retval += '\n' + _indent_ml_string(indent + 1,
+                                                       str(i))
 
             if '\n' in retval:
                 retval = retval.rstrip() + '\n' + _at_indent(indent, '')

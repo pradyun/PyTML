@@ -15,23 +15,17 @@ function donothing(){
     # but start and close the strings on a seperate line.
     body:
         p:
+            # for adding html, well, just add it in a RAW string.
+            r"<p> This is inline HTML </p>"
             # for inline text just type it.
-            "Hello World <br>" # but you need to add the br yourself
-
-            # for adding html, well, just add it, in a string :)
-            "<p> This was inline HTML </p>"
-            # still have the escapes for hashes though
-
-            "a:"
-            # for a hash
-            \# abc
+            "Hello World" r"<br>" # but you need to add the br yourself
         pre:
             """
-Note: the stuff in multiline strings is escaped :)
-And the stuff in this <pre> is escaped.
-for HTML <code>, and ooh..
-Yes: also for for PyTML..
-"""
+            Note: the stuff in strings is escaped,
+            And so the stuff in this <pre> will be escaped.
+            ooh.. the stuff is indented for beauty, check the source...
+            And you can also generate single-line-html..
+            """
         p:
             #and yes, for empty tags, you still need to go to the next line
             pass # and write this
