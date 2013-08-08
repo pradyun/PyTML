@@ -5,8 +5,8 @@ A Pythonic language that compiles into HTML.
 
 NOTE: Read the LICENSE.txt file as this project (currently) is not free to use.
 
-The main aims of this language is to be useful and add ease to generating  
-HTML code within Python.
+# The main aims of this language is to be useful and add ease to generating  
+# HTML code within Python.
 
 Some Features:
  - It is Pure-Python
