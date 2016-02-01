@@ -1,19 +1,14 @@
-PYTML
------
+> NOTE: Read the LICENSE.txt file as this project (currently) is not free to use.
 
-A Pythonic language that compiles into HTML.
+# PYTML
 
-NOTE: Read the LICENSE.txt file as this project (currently) is not free to use.
+An indentation sensitive markup-template language that compiles into HTML.
 
-The main aims of this language is to be useful and add ease to generating  
-HTML code within Python.
-
-Some Features:
- - It is Pure-Python
+## Features
  - Special \<br/\> support, to keep the \<br/\> consistent (See code).
- - The code generated is auto indented, helps me and you debug code :).
- - Multiline Strings.
- - Full attribute and name support.
+ - The code generated is auto indented
+ - Multiline Strings
+ - Full attribute and name support
  - Written by a 15 year old kid. :)
- 
-Author: Pradyun S. Gedam
+
+If you like this project, please check out my new endevour: https://github.com/pradyunsg/Py2C
